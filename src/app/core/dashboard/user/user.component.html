@@ -1,0 +1,86 @@
+@if (loading) {
+  <div class="center p-t-2 p-b-2">
+    <nz-spin nzSize="large"></nz-spin>
+  </div>
+} @else {
+  <main>
+    <nz-row [nzGutter]="24" class="m-b-1">
+      <nz-col nzSpan="8">
+        <form [formGroup]="form">
+          <nz-form-item class="no-margin-bottom">
+            <nz-form-control>
+              <ng-template #prefixIconSearch>
+                <nz-icon nzType="search" />
+              </ng-template>
+              <nz-input-group nzSearch [nzPrefix]="prefixIconSearch" [nzSuffix]="suffixTemplateSearch">
+                <input
+                  (keyup)="getValueChanges()"
+                  type="text"
+                  formControlName="search"
+                  nz-input
+                  placeholder="Buscar por tipo"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </nz-col>
+      <nz-col class="end endBlock d-flex" nzSpan="16">
+        <app-button icon="plus" (click)="openDrawer()"> Adicionar </app-button>
+      </nz-col>
+    </nz-row>
+
+    <nz-table #basicTable [nzData]="filterData" [nzWidthConfig]="['25%', '15%', '20%', '15%', '15%', '10%']">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>Email</th>
+          <th>CPF</th>
+          <th>Data de criação</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of basicTable.data; track data) {
+          <tr>
+            <td nzEllipsis>{{ data.name }}</td>
+            <td nzEllipsis>{{ data.phone | mask: '+00 (00) 00000-0000' }}</td>
+            <td nzEllipsis>{{ data.email }}</td>
+            <td nzEllipsis>{{ data.cpf | mask: '000.000.000-00' }}</td>
+            <td nzEllipsis>{{ data.createdAt | date: 'dd/MM/yyyy' }}</td>
+            <td>
+              <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                <nz-icon nzType="more" />
+              </a>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item (click)="openDrawer(data)">
+                    <nz-icon nzType="edit" />
+                    Editar
+                  </li>
+                  <li
+                    nz-menu-item
+                    nz-popconfirm
+                    nzPopconfirmTitle="Tem certeza que deseja deletar esse usuário?"
+                    nzPopconfirmPlacement="bottom"
+                    (nzOnConfirm)="deleteUser(data)"
+                  >
+                    <nz-icon nzType="delete" />
+                    Deletar
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </main>
+}
+
+<ng-template #suffixTemplateSearch>
+  @if (loadingSearch) {
+    <nz-icon nzType="loading" />
+  }
+</ng-template>

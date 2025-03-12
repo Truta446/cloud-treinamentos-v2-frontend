@@ -1,0 +1,21 @@
+<main>
+  <nz-upload
+    class="avatar-uploader"
+    nzName="image"
+    nzType="drag"
+    nzListType="picture-card"
+    [nzCustomRequest]="customRequest"
+    [nzShowUploadList]="false"
+    (nzChange)="handleChange($event)"
+    nzAccept="image/png,image/jpeg,image/jpg,image/bmp,image/svg+xml,image/webp"
+    nzFileType="image/png,image/jpeg,image/jpg,image/bmp,image/svg+xml,image/webp"
+    #nzUpload
+  >
+    @if (!avatarUrl) {
+      <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
+      <div class="ant-upload-text">Upload</div>
+    } @else {
+      <img [src]="avatarUrl" style="width: 100%" />
+    }
+  </nz-upload>
+</main>

@@ -1,0 +1,53 @@
+<main>
+  <form nz-form nzContent [formGroup]="form">
+    <nz-row class="m-b-1">
+      <nz-col nzSpan="24">
+        <nz-form-item>
+          <label class="m-b-1-1" nzFor="name">Nome</label>
+          <nz-form-control nzErrorTip="Preenchimento obrigatório">
+            <input nz-input id="name" formControlName="name" placeholder="Nome completo" />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row class="m-b-1">
+      <nz-col nzSpan="24">
+        <nz-form-item>
+          <label class="m-b-1-1" nzFor="cpf">CPF</label>
+          <nz-form-control nzErrorTip="CPF inválido">
+            <input nz-input id="cpf" formControlName="cpf" mask="000.000.000-00" placeholder="000.000.000-00" />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row class="m-b-1">
+      <nz-col nzSpan="24">
+        <nz-form-item>
+          <label class="m-b-1-1" nzFor="email">Email</label>
+          <nz-form-control nzErrorTip="Email inválido">
+            <input nz-input id="email" formControlName="email" placeholder="exemplo@gmail.com" />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+    <nz-row class="m-b-1">
+      <nz-col nzSpan="24">
+        <nz-form-item>
+          <label class="m-b-1-1" nzFor="phone">Celular</label>
+          <nz-form-control nzErrorTip="Preenchimento obrigatório">
+            <input nz-input id="phone" formControlName="phone" mask="(00) 0 0000-0000" placeholder="(00) 0 0000-0000" />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+
+    <nz-row class="m-b-1">
+      <nz-col nzSpan="24">
+        <app-button type="default" (click)="close(false)"> Cancelar </app-button>
+        <app-button [disabled]="form.invalid" (click)="close(true)">
+          {{ nzData ? 'Atualizar' : 'Criar' }}
+        </app-button>
+      </nz-col>
+    </nz-row>
+  </form>
+</main>

@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+.m-b-1 {
+  margin-bottom: 16px;
+}
+
+.m-b-2 {
+  margin-bottom: 32px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.end {
+  text-align: end !important;
+}
+
+.no-margin-bottom {
+  margin-bottom: 0 !important;
+}
+
+.endBlock {
+  display: flex !important;
+  justify-content: flex-end !important;
+}

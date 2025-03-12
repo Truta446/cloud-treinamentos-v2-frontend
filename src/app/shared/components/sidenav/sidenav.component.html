@@ -1,0 +1,30 @@
+<nz-sider
+  class="menu-sidebar"
+  nzCollapsible
+  nzWidth="256px"
+  nzBreakpoint="md"
+  [(nzCollapsed)]="isCollapsed"
+  [nzTrigger]="null"
+>
+  <div class="sidebar-logo">
+    <a href="https://comunidadecloud.com/" target="_blank">
+      <img [src]="!isCollapsed ? 'assets/images/logo.png' : 'assets/images/favicon.png'" alt="logo" />
+    </a>
+  </div>
+
+  <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+      <ul>
+        <li nz-menu-item nzMatchRouter>
+          <a routerLink="/dashboard/monitor">Monitoramento</a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a routerLink="/dashboard/user">Formulário</a>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <a routerLink="/dashboard/upload">Imagem</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nz-sider>
