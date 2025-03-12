@@ -8,11 +8,11 @@ export class CPUService {
   private apiUrl: string = environment.apiBaseUrl;
   private http: HttpClient = inject(HttpClient);
 
-  public handleStartCpu(): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/v1/cpu/start`);
+  public handleStartCpu(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/v1/cpu/start`);
   }
 
-  public handleStopCpu(): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/v1/cpu/stop`);
+  public handleStopCpu(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/v1/cpu/stop`);
   }
 }

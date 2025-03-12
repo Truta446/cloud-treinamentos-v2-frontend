@@ -1,51 +1,95 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
-import { NzUploadChangeParam, NzUploadModule, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile, NzUploadModule, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UploadService } from '../../../shared/services/upload/upload.service';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-upload',
-  imports: [NzIconModule, NzUploadModule],
+  imports: [NzIconModule, NzUploadModule, NzModalModule, NzSpinModule],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss',
 })
-export class UploadComponent {
+export class UploadComponent implements OnInit {
   public $message: NzMessageService = inject(NzMessageService);
   public $upload: UploadService = inject(UploadService);
 
-  public loading = false;
-  public avatarUrl?: string;
+  public loading: boolean = true;
+  public previewImage?: string = '';
+  public previewVisible?: boolean = false;
+  public fileList: NzUploadFile[] = [];
 
-  public handleChange(event: NzUploadChangeParam): void {
-    this.loading = true;
-    const file = event.file.originFileObj!;
-
-    if (!this.isValidSize(file)) {
-      this.loading = false;
-      this.$message.error('Arquivo muito grande. Tamanho máximo suportado: 5 MB');
-    } else {
-      this.getBase64(file).then((data: string) => {
-        this.uploadFile(data);
-      });
+  public handlePreview = async (file: NzUploadFile): Promise<void> => {
+    if (!file.url && !file['preview']) {
+      file['preview'] = await this.getBase64(file.originFileObj!);
     }
+    this.previewImage = file.url || file['preview'];
+    this.previewVisible = true;
+  };
+
+  public ngOnInit(): void {
+    this.getFile();
   }
 
-  private isValidSize(img: File): boolean {
-    return img.size <= 5242880; // Bigger than 5MB
+  private getFile(): void {
+    this.$upload.getFile().subscribe({
+      next: (res) => {
+        this.fileList.push({
+          uid: '-1',
+          name: 'logo',
+          status: 'done',
+          url: res.image,
+        });
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      error: (error) => {
+        this.loading = false;
+        console.log(error);
+      },
+    });
+  }
+
+  public async handleChange(event: NzUploadChangeParam): Promise<void> {
+    if (!event.file || !event.file.originFileObj) {
+      console.error('Arquivo inválido ou não encontrado no evento.');
+      return;
+    }
+
+    const file = event.file.originFileObj as File;
+
+    if (!(file instanceof File)) {
+      console.error('O objeto recebido não é um arquivo válido.');
+      return;
+    }
+
+    try {
+      const data = await this.getBase64(file);
+      this.uploadFile(data);
+    } catch (error) {
+      console.error('Erro ao converter arquivo para Base64:', error);
+    }
   }
 
   private uploadFile(data: string): void {
     this.$upload.handleUploadFile({ file: data }).subscribe({
       next: (res) => {
-        this.avatarUrl = data;
+        this.fileList = [];
+        this.fileList.push({
+          uid: '-1',
+          name: 'logo',
+          status: 'done',
+          url: data,
+        });
         this.$message.success('Upload concluído com sucesso.');
-        this.loading = false;
       },
       error: (error) => {
-        this.loading = false;
         this.$message.error('Erro ao realizar o upload do arquivo. Por favor, tente novamente mais tarde.');
       },
     });

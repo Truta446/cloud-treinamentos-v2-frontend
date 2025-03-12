@@ -30,19 +30,25 @@
         </nz-form-item>
       </nz-col>
     </nz-row>
-    <nz-row class="m-b-1">
+    <nz-row class="m-b-1 w-100">
       <nz-col nzSpan="24">
         <nz-form-item>
           <label class="m-b-1-1" nzFor="phone">Celular</label>
           <nz-form-control nzErrorTip="Preenchimento obrigatório">
-            <input nz-input id="phone" formControlName="phone" mask="(00) 0 0000-0000" placeholder="(00) 0 0000-0000" />
+            <input
+              nz-input
+              id="phone"
+              formControlName="phone"
+              mask="+00 (00) 0 0000-0000"
+              placeholder="+00 (00) 0 0000-0000"
+            />
           </nz-form-control>
         </nz-form-item>
       </nz-col>
     </nz-row>
 
     <nz-row class="m-b-1">
-      <nz-col nzSpan="24">
+      <nz-col nzSpan="24" class="between-flex">
         <app-button type="default" (click)="close(false)"> Cancelar </app-button>
         <app-button [disabled]="form.invalid" (click)="close(true)">
           {{ nzData ? 'Atualizar' : 'Criar' }}

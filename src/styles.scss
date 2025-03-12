@@ -1,3 +1,7 @@
+.w-100 {
+  width: 100%;
+}
+
 .m-b-1 {
   margin-bottom: 16px;
 }
@@ -18,7 +22,29 @@
   margin-bottom: 0 !important;
 }
 
-.endBlock {
+.end-flex {
   display: flex !important;
   justify-content: flex-end !important;
+}
+
+.between-flex {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+nz-form-item {
+  margin-bottom: 32px;
+  display: block !important;
+}
+
+.ant-layout-sider {
+  background: #161616 !important;
+}
+
+.ant-menu-dark {
+  background: #0f0f0f !important;
+}
+
+.ant-menu-sub {
+  background: #070707 !important;
 }

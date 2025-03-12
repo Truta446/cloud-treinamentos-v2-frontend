@@ -1,28 +1,79 @@
-<div style="background: #ececec; padding: 30px">
-  <nz-row [nzGutter]="16">
-    <nz-col [nzSpan]="12">
-      <nz-card>
-        <nz-statistic
-          [nzValue]="(11.28 | number: '1.0-2')!"
-          nzTitle="{{ 'monitor.active' }}"
-          [nzPrefix]="prefixTplOne"
-          nzSuffix="%"
-          [nzValueStyle]="{ color: '#3F8600' }"
-        ></nz-statistic>
-        <ng-template #prefixTplOne><nz-icon nzType="arrow-up" /></ng-template>
-      </nz-card>
-    </nz-col>
-    <nz-col [nzSpan]="12">
-      <nz-card>
-        <nz-statistic
-          [nzValue]="(9.3 | number: '1.0-2')!"
-          nzTitle="{{ 'monitor.idle' }}"
-          [nzPrefix]="prefixTplTwo"
-          nzSuffix="%"
-          [nzValueStyle]="{ color: '#CF1322' }"
-        ></nz-statistic>
-        <ng-template #prefixTplTwo><nz-icon nzType="arrow-down" /></ng-template>
-      </nz-card>
-    </nz-col>
-  </nz-row>
-</div>
+@if (loading) {
+  <div class="center p-t-2 p-b-2">
+    <nz-spin nzSize="large"></nz-spin>
+  </div>
+} @else {
+  <main>
+    <section class="m-b-1">
+      <nz-row>
+        <nz-col [nzSpan]="24" class="between-flex">
+          <app-button (click)="stopCpu()">Parar consumo de CPU</app-button>
+          <app-button type="default" icon="reload" (click)="getSystemInfo()">Recarregar informações</app-button>
+          <app-button (click)="startCpu()">Iniciar consumo de CPU</app-button>
+        </nz-col>
+      </nz-row>
+    </section>
+    <section>
+      <nz-row [nzGutter]="16" class="m-b-1">
+        <nz-col [nzSpan]="8">
+          <nz-card>
+            <nz-statistic
+              [nzValue]="(100 - system.idleCpu | number: '1.0-2')!"
+              nzTitle="Utilização de CPU"
+              [nzPrefix]="prefixTplDashboard"
+              nzSuffix="%"
+            ></nz-statistic>
+            <ng-template #prefixTplDashboard><nz-icon nzType="dashboard" /></ng-template>
+          </nz-card>
+        </nz-col>
+        <nz-col [nzSpan]="8">
+          <nz-card>
+            <nz-statistic
+              [nzValue]="formattedUptime"
+              nzTitle="Tempo de atividade"
+              [nzPrefix]="prefixTplClock"
+            ></nz-statistic>
+            <ng-template #prefixTplClock><nz-icon nzType="clock-circle" /></ng-template>
+          </nz-card>
+        </nz-col>
+        <nz-col [nzSpan]="8">
+          <nz-card>
+            <nz-statistic
+              [nzValue]="system.memoryUsage?.used + 'GB'"
+              nzTitle="Memória utilizada"
+              [nzSuffix]="'/' + system.memoryUsage?.total + 'GB'"
+            ></nz-statistic>
+          </nz-card>
+        </nz-col>
+      </nz-row>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="8">
+          <nz-card>
+            <nz-statistic
+              [nzValue]="system.containerId"
+              nzTitle="Container ID"
+              [nzPrefix]="prefixTplCode"
+            ></nz-statistic>
+            <ng-template #prefixTplCode><nz-icon nzType="code" /></ng-template>
+          </nz-card>
+        </nz-col>
+        <nz-col [nzSpan]="8">
+          <nz-card>
+            <nz-statistic [nzValue]="system.hostname!" nzTitle="Servidor" [nzPrefix]="prefixTplHost"></nz-statistic>
+            <ng-template #prefixTplHost><nz-icon nzType="desktop" /></ng-template>
+          </nz-card>
+        </nz-col>
+        <nz-col [nzSpan]="8">
+          <nz-card>
+            <nz-statistic
+              [nzValue]="system.cpuCores"
+              nzTitle="Numero de núcleos"
+              [nzPrefix]="prefixTplCpu"
+            ></nz-statistic>
+            <ng-template #prefixTplCpu><nz-icon nzType="control" /></ng-template>
+          </nz-card>
+        </nz-col>
+      </nz-row>
+    </section>
+  </main>
+}

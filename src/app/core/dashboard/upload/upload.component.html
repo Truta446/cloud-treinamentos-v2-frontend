@@ -1,21 +1,35 @@
-<main>
-  <nz-upload
-    class="avatar-uploader"
-    nzName="image"
-    nzType="drag"
-    nzListType="picture-card"
-    [nzCustomRequest]="customRequest"
-    [nzShowUploadList]="false"
-    (nzChange)="handleChange($event)"
-    nzAccept="image/png,image/jpeg,image/jpg,image/bmp,image/svg+xml,image/webp"
-    nzFileType="image/png,image/jpeg,image/jpg,image/bmp,image/svg+xml,image/webp"
-    #nzUpload
-  >
-    @if (!avatarUrl) {
-      <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
-      <div class="ant-upload-text">Upload</div>
-    } @else {
-      <img [src]="avatarUrl" style="width: 100%" />
-    }
-  </nz-upload>
-</main>
+@if (loading) {
+  <div class="center p-t-2 p-b-2">
+    <nz-spin nzSize="large"></nz-spin>
+  </div>
+} @else {
+  <main>
+    <nz-upload
+      class="avatar-uploader"
+      nzListType="picture-card"
+      [nzCustomRequest]="customRequest"
+      (nzChange)="handleChange($event)"
+      nzAccept="image/png,image/jpeg,image/jpg,image/bmp,image/svg+xml,image/webp"
+      nzFileType="image/png,image/jpeg,image/jpg,image/bmp,image/svg+xml,image/webp"
+      [nzPreview]="handlePreview"
+      [nzShowButton]="fileList.length < 1"
+      [(nzFileList)]="fileList"
+    >
+      <div>
+        <nz-icon nzType="plus" />
+        <div style="margin-top: 8px">Upload</div>
+      </div>
+    </nz-upload>
+  </main>
+}
+
+<nz-modal
+  [nzVisible]="previewVisible"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false"
+>
+  <ng-template #modalContent>
+    <img [src]="previewImage" style="width: 100%" />
+  </ng-template>
+</nz-modal>

@@ -9,6 +9,10 @@ export class UploadService {
   private apiUrl: string = environment.apiBaseUrl;
   private http: HttpClient = inject(HttpClient);
 
+  public getFile(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/v1/upload`);
+  }
+
   public handleUploadFile(data: UploadImageModel): Observable<boolean> {
     return this.http.post<boolean>(`${this.apiUrl}/v1/upload`, data);
   }

@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - echo Using Node version 22...
+      - echo Installing dependencies...
+      - npm install
+
+  build:
+    commands:
+      - echo Building project for development...
+      - npm run build:prod
+
+  post_build:
+    commands:
+      - echo Copying build artifacts to S3...
+      - aws s3 cp ./dist s3://$S3_BUCKET --recursive
+      - echo Invalidating CloudFront cache...
+      - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: yes
