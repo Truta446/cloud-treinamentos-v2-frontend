@@ -17,7 +17,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ButtonComponent } from '../../button/button.component';
 
 @Component({
-  selector: 'drawer-user-component',
+  selector: 'app-drawer-user-component',
   imports: [
     NzButtonModule,
     NzDividerModule,

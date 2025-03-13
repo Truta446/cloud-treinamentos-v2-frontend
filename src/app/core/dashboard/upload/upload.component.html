@@ -17,7 +17,7 @@
     >
       <div>
         <nz-icon nzType="plus" />
-        <div style="margin-top: 8px">Upload</div>
+        <div class="m-t-0-1">Upload</div>
       </div>
     </nz-upload>
   </main>
@@ -30,6 +30,6 @@
   (nzOnCancel)="previewVisible = false"
 >
   <ng-template #modalContent>
-    <img [src]="previewImage" style="width: 100%" />
+    <img [src]="previewImage" class="w-100" alt="Preview image" />
   </ng-template>
 </nz-modal>
