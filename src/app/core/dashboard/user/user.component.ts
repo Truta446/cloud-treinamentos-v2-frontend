@@ -99,7 +99,6 @@ export class UserComponent implements OnInit {
         },
       })
       .afterClose.subscribe((data: any) => {
-        console.log(data);
         if (data) {
           if (user) {
             this.updateUser(user.id, data);

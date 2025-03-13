@@ -51,7 +51,7 @@ export class UploadComponent implements OnInit {
       },
       error: (error) => {
         this.loading = false;
-        console.log(error);
+        console.error(error);
       },
     });
   }
